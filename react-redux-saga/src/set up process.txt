@@ -19,7 +19,7 @@
 5) created ActionTypeConstant.js to store the and export the strings to indicate the type of the action
    
    src
-   |-->ActionTypeConstant.js
+   |--> ActionTypeConstant.js
 
 6) created the Reducer.js file to add the reducer functions 
 

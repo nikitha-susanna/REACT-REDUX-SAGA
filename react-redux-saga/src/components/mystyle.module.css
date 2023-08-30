@@ -1,0 +1,22 @@
+.userCompButtons{
+    float: right;
+    margin-right: 2%;
+}
+
+.userComponentListView{
+    height: 85vh;
+    overflow: auto;
+    background-color: #f5f5f5;
+}
+
+.cardActionAlignment{
+    justify-content: flex-end;
+}
+
+.heading{
+    margin-bottom: 1%;
+}
+
+.cursor{
+    cursor: pointer;
+}

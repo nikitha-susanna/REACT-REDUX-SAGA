@@ -10,61 +10,119 @@ import {
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { deleteUser } from "../redux/actions/users";
+import styles from "./mystyle.module.css";
+import PerformanceStats from "./PerformanceStats";
 
-function CardComponent(props) {
-   const [sanckBar, setSnackBar] = useState({open:false, severity:''})
-   const [message, setMessage] = useState('') 
-   const dispatch = useDispatch();
-   const deleteThisUser = () => {
-      if ( props.users.length === 0 ){
-         setSnackBar({...sanckBar,open:true, severity:'error'})
-         setMessage('The user list is empty')
-      } else {
-         dispatch(deleteUser(props.users.id));
-         setSnackBar({...sanckBar, open:true, severity:'success'})
-         setMessage('User '+ props.users.name+ ' is successfully deleted')
-      }
-   };
-   const handleClose = () => {
-      setSnackBar({...sanckBar, open:false})
-   }
+function CardComponent({ users, show, isUpdate, setTheUserDetails }) {
+  const [sanckBar, setSnackBar] = useState({ open: false, severity: "" });
+  const [userDetails, setUserDetails] = useState({
+    id: users.id ? users.id : "",
+    name: users.name ? users.name : "",
+    userName: users.userName ? users.userName : "",
+    email: users.email ? users.email : "",
+    salesStat: users.salesStat ? users.salesStat : ""
+  });
+  const [message, setMessage] = useState("");
+  const [showSalesReport, setShowSalesReport] = useState(false);
+
+  const dispatch = useDispatch();
+  const deleteThisUser = () => {
+    if (users.length === 0) {
+      setSnackBar({ ...sanckBar, open: true, severity: "error" });
+      setMessage("The user list is empty");
+    } else {
+      dispatch(deleteUser(users.id));
+      setSnackBar({ ...sanckBar, open: true, severity: "success" });
+      setMessage(
+        "User " + users.name || users.userName + " is successfully deleted"
+      );
+    }
+  };
+
+  const updateThisUser = () => {
+    console.log("--> updateinside card comp ", userDetails);
+    setTheUserDetails(userDetails);
+    isUpdate(true);
+    show();
+  };
+
+  const handleClose = () => {
+    setSnackBar({ ...sanckBar, open: false });
+  };
+
+  const showReports = () => {
+    setShowSalesReport(true);
+  };
+
+  const closeReports = () => {
+    setShowSalesReport(false);
+  };
+
   return (
     <div>
-      <Snackbar 
-         open={sanckBar.open} 
-         autoHideDuration={10000} 
-         handleClose={()=>{ handleClose() }}
-         anchorOrigin={{vertical: 'top', horizontal: 'right' }} >
-         <Alert  severity={sanckBar.severity} sx={{ width: "100%" }}>
-            {message}
-         </Alert>
+      <Snackbar
+        open={sanckBar.open}
+        autoHideDuration={3000}
+        handleClose={() => {
+          handleClose();
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert severity={sanckBar.severity} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
       </Snackbar>
       <Card
-        variant="outlined"
-        sx={{ maxWidth: 300, m: "20px" }}
+        sx={{ maxWidth: 400, m: "10px", minHeight: 150, maxHeight: 200 }}
         orientation="horizontal"
       >
-         <CardContent>
-            <Typography variant="h6">{props.users.name}</Typography>
-            <Typography gutterBottom variant="body2" component="p">
-               {props.users.username}
-            </Typography>
-            <Typography gutterBottom variant="body2" component="p">
-               {props.users.email}
-            </Typography>
-         </CardContent>
-         <CardActions>
-            <Button
-               size="small"
-               onClick={() => {
-               deleteThisUser();
-               }}
-            >
+        <CardContent
+        className={styles.cursor}
+          onClick={() => {
+            showReports();
+          }}
+        >
+          <Typography variant="h6">
+            {users.name}
+          </Typography>
+          <Typography gutterBottom variant="body2" component="p">
+            {users.userName}
+          </Typography>
+          <Typography gutterBottom variant="body2" component="p">
+            {users.email}
+          </Typography>
+        </CardContent>
+        <CardActions className={styles.cardActionAlignment}>
+          <Button
+            variant="outlined"
+            size="medium"
+            onClick={() => {
+              updateThisUser();
+            }}
+            className={styles.cardActionButtons}
+          >
+            Update
+          </Button>
+          <Button
+            variant="outlined"
+            size="medium"
+            color="error"
+            onClick={() => {
+              deleteThisUser();
+            }}
+            className={styles.cardActionButtons}
+          >
             Delete
-            </Button>
-          {/* <Button size="small">Update</Button> */}
-         </CardActions>
+          </Button>
+        </CardActions>
       </Card>
+      {showSalesReport &&
+        <PerformanceStats
+          openReport={showSalesReport}
+          closeReport={closeReports}
+          data={users.salesStat}
+          userName={users.name}
+        />}
     </div>
   );
 }

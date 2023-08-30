@@ -19,16 +19,33 @@ export default function users(state = initialState, action) {
         loading: false,
         users: action.users
       };
-   case type.DELETE_USER_SUCCESS:
+    case type.DELETE_USER_SUCCESS:
       return {
-         ...state,
-         loading:false,
-      }
+        ...state,
+        loading: false
+      };
     case type.GET_USER_FAILED:
       return {
         ...state,
         loading: false,
         error: action.message
+      };
+    case type.ADD_NEW_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false
+      };
+    case type.UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false
+      };
+    case type.UPDATE_USER_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false
       };
     default:
       return state;

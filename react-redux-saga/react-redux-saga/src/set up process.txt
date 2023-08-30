@@ -1,0 +1,50 @@
+* updated my node version to 18.16.1 (nvm install <version number>)
+* use 18.16.1
+
+1) created react app using the command npx create-react-app <project-name>
+2) npm i redux react-redux redux-saga
+3) created the directories as required 
+	
+   src
+	|--> redux
+	|	|--> actions
+	|	|--> reducer
+	|--> Store.js
+
+4) created the Action.js file to specify the functions to be added
+   
+   |--> actions
+	|		|--> Action.js
+
+5) created ActionTypeConstant.js to store the and export the strings to indicate the type of the action
+   
+   src
+   |-->ActionTypeConstant.js
+
+6) created the Reducer.js file to add the reducer functions 
+
+   |--> reducer
+	|		|--> Reducer.js
+
+7) created A file called RootReducer.js because store accepts only object 
+
+   |--> reducer
+   |		|--> Reducer.js
+   |		|--> RootReducer.js
+
+8) created Store.js file and combined all reducers as one using the cobinedReducer 
+   src
+   |--> Store.js
+
+9) wrapped the app component with <Provider store = {store}> tag to make it available to all the lower order components
+
+
+src
+	|--> redux
+	|	|--> actions
+	|		|--> Action.js
+	|	|--> reducer
+	|		|--> Reducer.js
+	|		|--> RootReducer.js
+   |-->ActionTypeConstant.js
+	|--> Store.js
